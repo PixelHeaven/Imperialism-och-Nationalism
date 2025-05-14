@@ -88,82 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Image lazy loading with fade-in effect
     const images = document.querySelectorAll('.bild');
     
-    const imgObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Start loading the image
-                const img = entry.target;
-                const src = img.getAttribute('src');
-                
-                // Add loaded class after the image is loaded
-                img.onload = function() {
-                    img.classList.add('loaded');
-                };
-                
-                imgObserver.unobserve(img);
-            }
-        });
-    }, { threshold: 0.1 });
-    
     images.forEach(img => {
-        img.style.transition = 'opacity 0.5s ease-in-out';
-        imgObserver.observe(img);
+        img.style.transition = "opacity 0.5s ease-in-out";
+        // Add loaded class immediately to make images visible
+        img.classList.add("loaded");
     });
-    
-    // Interactive map
-    const yearSlider = document.getElementById('year-slider');
-    const selectedYear = document.getElementById('selected-year');
-    const mapContainer = document.getElementById('map-container');
-    
-    // Map data - simplified for example
-    const maps = {
-        1800: "https://upload.wikimedia.org/wikipedia/commons/d/df/World_1800.png",
-        1850: "https://upload.wikimedia.org/wikipedia/commons/b/b5/World_1850.png",
-        1880: "https://upload.wikimedia.org/wikipedia/commons/9/9b/World_1880.png",
-        1914: "https://upload.wikimedia.org/wikipedia/commons/0/01/Africa_1914_map_en.png"
-    };
-    
-    // Initialize the map
-    function updateMap(year) {
-        selectedYear.textContent = year;
-        
-        // Find the closest year in our maps object
-        const availableYears = Object.keys(maps).map(Number);
-        const closestYear = availableYears.reduce((prev, curr) => {
-            return (Math.abs(curr - year) < Math.abs(prev - year) ? curr : prev);
-        });
-        
-        // Create or update the map image
-        let mapImg = mapContainer.querySelector('img');
-        if (!mapImg) {
-            mapImg = document.createElement('img');
-            mapImg.classList.add('bild');
-            mapImg.alt = `Världskarta år ${closestYear}`;
-            mapContainer.appendChild(mapImg);
-        }
-        
-        mapImg.src = maps[closestYear];
-        
-        // Add caption
-        let caption = mapContainer.querySelector('p');
-        if (!caption) {
-            caption = document.createElement('p');
-            caption.classList.add('bildtext');
-            mapContainer.appendChild(caption);
-        }
-        
-        caption.textContent = `Världskarta som visar koloniala territorier omkring år ${closestYear}.`;
-    }
-    
-    // Initialize with default value
-    if (yearSlider) {
-        updateMap(yearSlider.value);
-        
-        // Update when slider changes
-        yearSlider.addEventListener('input', function() {
-            updateMap(this.value);
-        });
-    }
     
     // Improved Quiz functionality
     const quizContainer = document.querySelector('.quiz-container');
@@ -296,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <p>Detta quiz innehåller frågor om imperialism och nationalism under 1800-talet.</p>
                     <p>Välj svårighetsgrad:</p>
                     <div class="difficulty-selection">
-                                                <button class="difficulty-btn" data-questions="5">Lätt (5 frågor)</button>
+                        <button class="difficulty-btn" data-questions="5">Lätt (5 frågor)</button>
                         <button class="difficulty-btn" data-questions="10">Mellan (10 frågor)</button>
                         <button class="difficulty-btn" data-questions="15">Svår (15 frågor)</button>
                     </div>
@@ -336,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create a copy of the shuffled questions for this quiz session
             quizQuestionsInUse = quizQuestions.slice(0, numQuestions);
             
-            showQuestion(0);
+                        showQuestion(0);
             submitButton.textContent = "Svara";
             submitButton.onclick = checkAnswer;
         }
@@ -485,4 +414,3 @@ document.addEventListener('DOMContentLoaded', function() {
         showQuizStart();
     }
 });
-
